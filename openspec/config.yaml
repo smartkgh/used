@@ -1,0 +1,58 @@
+schema: spec-driven
+
+context: |
+  # 중고마켓 통합 검색 웹앱
+
+  ## 프로젝트 개요
+  당근마켓, 중고나라, 번개장터 3개 중고거래 플랫폼의 상품을 통합 검색하고
+  가격을 비교하며 알림을 받을 수 있는 웹앱
+
+  ## 모듈 구조
+  - front/: Next.js 14+ (App Router) → Cloudflare Pages 배포
+  - back/: Hono.js → Cloudflare Workers 배포
+  - pnpm 워크스페이스 모노레포
+
+  ## 기술 스택
+  - Frontend: Next.js 14+ (App Router), TypeScript, Tailwind CSS
+  - Backend: Hono.js on Cloudflare Workers
+  - Deployment: front → Cloudflare Pages, back → Cloudflare Workers
+  - Database: Cloudflare D1 (back 모듈 - 알림 구독)
+  - Cache: Cloudflare KV (back 모듈 - 검색 결과 캐싱)
+
+  ## 핵심 기능
+  1. 통합 검색: 3개 사이트 동시 검색, 결과 통합 표시
+  2. 가격 비교: 동일/유사 물품 사이트별 가격 비교
+  3. 알림 기능: 키워드 등록 → 신규 매물 등록 시 알림
+
+  ## 검색 대상 사이트
+  - 당근마켓 (daangn.com)
+  - 중고나라 (joonggonara.co.kr / Naver Cafe)
+  - 번개장터 (bunjang.co.kr)
+
+  ## 아키텍처 원칙
+  - front는 UI만 담당, 모든 데이터 요청은 back API 호출
+  - back은 Edge Runtime (Node.js 내장 모듈 사용 금지)
+  - 검색 결과는 KV에 5분 캐싱
+  - Cloudflare Cron은 현재 스코프 제외
+  - 컨벤션: Conventional Commits
+
+  ## 코딩 컨벤션
+  - 파일명: kebab-case
+  - 컴포넌트: PascalCase
+  - 타입 정의: interface 우선
+  - API 응답 타입 명시 필수
+  - 에러 처리: 사이트별 독립적으로 처리 (한 사이트 실패해도 나머지 표시)
+
+rules:
+  proposal:
+    - 비기능 요구사항(성능, 보안) 포함
+    - Non-goals 섹션 필수
+    - Cloudflare 제약사항 명시
+  tasks:
+    - 태스크당 최대 4시간 작업량
+    - 의존성 명시
+    - 각 태스크에 완료 기준 포함
+  api:
+    - OpenAPI 3.0 형식으로 작성
+    - 요청/응답 타입 명시
+    - 에러 케이스 포함

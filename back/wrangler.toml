@@ -1,0 +1,15 @@
+name = "used-market-back"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[kv_namespaces]]
+binding = "SEARCH_CACHE"
+id = "ee334a928dc64cee973ea33ed209a53a"          # wrangler kv:namespace create SEARCH_CACHE
+preview_id = "36ab7b2cd2f047d6bf1189366e099faa"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "used-market-db"
+database_id = "a61e5d8f-aa12-4488-b588-c5ebda6d902f" # wrangler d1 create used-market-db
+migrations_dir = "src/db/migrations"
